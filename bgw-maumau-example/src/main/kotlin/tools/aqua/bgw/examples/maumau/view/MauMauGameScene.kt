@@ -1,5 +1,6 @@
 package tools.aqua.bgw.examples.maumau.view
 
+import tools.aqua.bgw.components.ComponentView
 import tools.aqua.bgw.components.container.Area
 import tools.aqua.bgw.components.container.CardStack
 import tools.aqua.bgw.components.container.LinearLayout
@@ -235,12 +236,31 @@ class MauMauGameScene : BoardGameScene(background = ImageVisual(BG_FILE)) {
 		//onMouseExited = { visual = ColorVisual.RED }
 		onDragGestureExited = { visual = ColorVisual.RED }
 		rotation = 30.0
-		scale = 2.0
+		scale = 0.8
 		
 		dropAcceptor = { println("Try drop on TOKEN8"); true }
 	}
 	
-	val grid = GridPane<TokenView>(posX = 1000, posY = 600, columns = 2, rows = 2, spacing = 0, visual = ColorVisual.WHITE).apply {
+	val token9 = TokenView(posX = 0, posY = 0, width = 50, height = 50, visual = ColorVisual.RED).apply {
+		//onMouseEntered = { visual = ColorVisual.YELLOW }
+		onDragGestureEntered = { visual = ColorVisual.GREEN }
+		//onMouseExited = { visual = ColorVisual.RED }
+		onDragGestureExited = { visual = ColorVisual.RED }
+		
+		dropAcceptor = { println("Try drop on TOKEN9"); true }
+	}
+	
+	val nestedGrid = GridPane<ComponentView>(columns = 2, rows = 1).apply {
+		//onMouseEntered = { visual = ColorVisual.YELLOW }
+		onDragGestureEntered = { visual = ColorVisual.YELLOW }
+		//onMouseExited = { visual = ColorVisual.WHITE }
+		onDragGestureExited = { visual = ColorVisual.WHITE }
+		
+		set(0,0, token8)
+		set(1,0, token9)
+	}
+	
+	val grid = GridPane<ComponentView>(posX = 1000, posY = 600, columns = 2, rows = 2, spacing = 0, visual = ColorVisual.WHITE).apply {
 		//onMouseEntered = { visual = ColorVisual.YELLOW }
 		onDragGestureEntered = { visual = ColorVisual.GREEN }
 		//onMouseExited = { visual = ColorVisual.WHITE }
@@ -248,7 +268,7 @@ class MauMauGameScene : BoardGameScene(background = ImageVisual(BG_FILE)) {
 		set(0,0, token5)
 		set(1,0, token6)
 		set(0,1, token7)
-		set(1,1, token8)
+		set(1,1, nestedGrid)
 		//rotation = 45.0
 		//scale = 0.5
 		
